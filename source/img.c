@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:41:16 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:48:35 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 19:03:46 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	img_destroy(t_game *game, t_img *img)
 	ft_memset (img, 0, sizeof (t_img));
 }
 
-t_bool	img_load_png(t_game *game, t_img *img, t_cstr filename)
+t_bool	img_load_xpm(t_game *game, t_img *img, t_cstr filename)
 {
-	img->mlx_img = mlx_png_file_to_image (game->mlx, (char *)filename,
+	img->mlx_img = mlx_xpm_file_to_image (game->mlx, (char *)filename,
 			&img->width, &img->height);
 	if (!img->mlx_img)
 		return (FALSE);

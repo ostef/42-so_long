@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:48:25 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 19:01:20 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_bool	game_init(t_game *game)
 			game->visible_tiles_x * TILE_SIZE * GAME_SCALE,
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE))
 		return (FALSE);
-	if (!img_load_png (game, &game->atlas, "data/atlas.png"))
+	if (!img_load_xpm (game, &game->atlas, "data/atlas.xpm"))
 		return (FALSE);
 	game->player_tile = TILE_PLAYER_DOWN0;
 	game->running = TRUE;

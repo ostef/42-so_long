@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:48:05 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 19:03:29 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ t_bool	check_map(t_game *game);
 
 t_bool	img_init(t_game *game, t_img *img, t_int width, t_int height);
 void	img_destroy(t_game *game, t_img *img);
-t_bool	img_load_png(t_game *game, t_img *img, t_cstr filename);
+t_bool	img_load_xpm(t_game *game, t_img *img, t_cstr filename);
 t_rgba	img_get_px(t_img *img, t_int x, t_int y);
 void	img_set_px(t_img *img, t_int x, t_int y, t_rgba color);
 
