@@ -6,7 +6,7 @@ INCLUDE_DIRS = libft mlx .
 LIB_DIRS = libft mlx
 LIBS = ft mlx
 CC = gcc
-C_FLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -Wall -Wextra -Werror
+C_FLAGS = $(addprefix -I, $(INCLUDE_DIRS)) #-Wall -Wextra -Werror
 
 all: $(NAME)
 

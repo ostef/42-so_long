@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:24:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 15:50:51 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 17:32:23 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_bool	map_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
 		cell = AIR;
 	}
 	if (cell != AIR && cell != WALL && cell != COLLECTIBLE
-		&& cell != EXIT && cell != BLOCK)
+		&& cell != EXIT)
 		return (FALSE);
 	if (cell == EXIT)
 		game->exits += 1;
@@ -75,11 +75,17 @@ t_bool	game_load_map(t_game *game, t_cstr filename)
 	game->cells = (t_cell *)ft_zalloc (
 			sizeof (t_cell) * game->width * game->height, ALLOC_HEAP);
 	if (!game->cells)
+	{
+		ft_free (str, ALLOC_HEAP);
 		return (FALSE);
+	}
 	game->player_x = -1;
 	game->player_y = -1;
 	if (!parse_map (game, str))
+	{
+		ft_free (str, ALLOC_HEAP);
 		return (FALSE);
+	}
 	ft_free (str, ALLOC_HEAP);
 	return (game->player_x != -1 && game->player_y != -1 && check_map (game));
 }

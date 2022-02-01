@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 14:46:48 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 18:42:35 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include "mlx.h"
+
+# include <stdio.h>
 
 # define TILE_SIZE 16
 # ifndef GAME_SCALE
@@ -87,7 +89,6 @@ typedef enum e_dir
 # define TILE_PLAYER_FALL2 18
 # define TILE_AIR 19
 # define TILE_COLLECTIBLE 20
-# define TILE_BLOCK 21
 # define TILE_WALL 22
 # define TILE_EXIT 23
 
@@ -110,8 +111,7 @@ typedef enum e_cell
 	AIR = '0',
 	WALL = '1',
 	COLLECTIBLE = 'C',
-	EXIT = 'E',
-	BLOCK = 'B'
+	EXIT = 'E'
 }	t_cell;
 
 typedef struct s_game
@@ -140,7 +140,7 @@ t_bool	game_init(t_game *game);
 void	game_terminate(t_game *game, t_int error_code);
 t_bool	game_load_map(t_game *game, t_cstr filename);
 t_cell	game_get_cell(t_game *game, t_int x, t_int y);
-t_bool	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
+void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
 void	game_move(t_game *game, t_dir dir);
 t_bool	game_should_end(t_game *game);
 
@@ -162,6 +162,6 @@ void	draw_map(t_game *game);
 void	get_xdir_ydir(t_dir dir, t_int *x, t_int *y);
 t_int	cell_to_tile(t_cell cell);
 t_cell	tile_to_cell(t_int tile);
-t_int	get_player_tile(t_int xdir, t_int ydir, t_bool pushing);
+t_int	get_player_tile(t_int xdir, t_int ydir);
 
 #endif

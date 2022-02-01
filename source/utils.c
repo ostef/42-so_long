@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:58:12 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 14:17:36 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 16:33:33 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ t_int	cell_to_tile(t_cell cell)
 		return (TILE_COLLECTIBLE);
 	if (cell == EXIT)
 		return (TILE_EXIT);
-	if (cell == BLOCK)
-		return (TILE_BLOCK);
 	return (-1);
 }
 
@@ -47,12 +45,10 @@ t_cell	tile_to_cell(t_int tile)
 		return (COLLECTIBLE);
 	if (tile == TILE_EXIT)
 		return (EXIT);
-	if (tile == TILE_BLOCK)
-		return (BLOCK);
 	return (-1);
 }
 
-t_int	get_player_tile(t_int xdir, t_int ydir, t_bool pushing)
+t_int	get_player_tile(t_int xdir, t_int ydir)
 {
 	t_int	tile_offset;
 
@@ -67,7 +63,5 @@ t_int	get_player_tile(t_int xdir, t_int ydir, t_bool pushing)
 		tile_offset = 0;
 	else
 		return (-1);
-	if (pushing)
-		return (TILE_PLAYER_PUSHD0 + tile_offset * 2);
 	return (TILE_PLAYER_DOWN0 + tile_offset * 2);
 }

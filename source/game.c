@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 15:49:28 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 18:44:39 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_bool	game_init(t_game *game)
 	game->mlx = mlx_init ();
 	if (!game->mlx)
 		return (FALSE);
+	printf ("mlx_init: %p\n", game->mlx);
 	game->visible_tiles_x = ft_min (MAX_WIDTH, game->width);
 	game->visible_tiles_y = ft_min (MAX_HEIGHT, game->height);
 	game->mlx_win = mlx_new_window (game->mlx,
@@ -25,6 +26,7 @@ t_bool	game_init(t_game *game)
 			"so_long");
 	if (!game->mlx_win)
 		return (FALSE);
+	printf ("mlx_new_window: %p\n", game->mlx_win);
 	if (!img_init (game, &game->frame,
 			game->visible_tiles_x * TILE_SIZE * GAME_SCALE,
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE))
@@ -38,11 +40,18 @@ t_bool	game_init(t_game *game)
 
 void	game_terminate(t_game *game, t_int error_code)
 {
-	ft_free (game->cells, ALLOC_HEAP);
-	img_destroy (game, &game->frame);
-	if (game->mlx && game->mlx_win)
-		mlx_destroy_window (game->mlx, game->mlx_win);
-	game->running = FALSE;
+	if (game->running)
+	{
+		ft_free (game->cells, ALLOC_HEAP);
+		img_destroy (game, &game->frame);
+		img_destroy (game, &game->atlas);
+		game->running = FALSE;
+		if (game->mlx && game->mlx_win)
+			mlx_destroy_window (game->mlx, game->mlx_win);
+		ft_memset (game, 0, sizeof (t_game));
+	}
+	ft_println ("Primitive leak checker: %i leaks from ft_alloc.",
+		ft_get_heap_allocations ());
 	exit (error_code);
 }
 
@@ -50,21 +59,6 @@ t_bool	game_should_end(t_game *game)
 {
 	return (game_get_cell (game, game->player_x, game->player_y) == EXIT
 		&& game->collectibles == 0);
-}
-
-static t_bool	move_block(t_game *game, t_int x, t_int y, t_dir dir)
-{
-	t_cell	next;
-	t_int	xdir;
-	t_int	ydir;
-
-	get_xdir_ydir (dir, &xdir, &ydir);
-	next = game_get_cell (game, x + xdir, y + ydir);
-	if (next != AIR)
-		return (FALSE);
-	game_set_cell (game, x + xdir, y + ydir, BLOCK);
-	game_set_cell (game, x, y, AIR);
-	return (TRUE);
 }
 
 void	game_move(t_game *game, t_dir dir)
@@ -83,15 +77,12 @@ void	game_move(t_game *game, t_dir dir)
 		return ;
 	if (next == COLLECTIBLE)
 		game_set_cell (game, next_x, next_y, AIR);
-	if (next == BLOCK && !move_block (game, next_x, next_y, dir))
-		return ;
 	game->player_x = next_x;
 	game->player_y = next_y;
-	game->player_tile = get_player_tile (xdir, ydir, next == BLOCK);
+	game->player_tile = get_player_tile (xdir, ydir);
 	game->move_count += 1;
 	game->cam_x = ft_clamp (game->player_x - game->visible_tiles_x / 2, 0,
 			game->width - game->visible_tiles_x);
 	game->cam_y = ft_clamp (game->player_y - game->visible_tiles_y / 2, 0,
 			game->height - game->visible_tiles_y);
-	ft_println ("Moves: %i.", game->move_count);
 }

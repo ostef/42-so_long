@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 05:15:57 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 15:51:37 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 16:35:45 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,15 @@ t_cell	game_get_cell(t_game *game, t_int x, t_int y)
 	return (game->cells[y * game->width + x]);
 }
 
-t_bool	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
+void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
 {
 	ft_assert (x >= 0 && x < game->width,
 		"game_get_cell: x (%i) is out of bounds.", x);
 	ft_assert (y >= 0 && y < game->height,
 		"game_get_cell: y (%i) is out of bounds.", y);
-	if (cell != AIR && cell != WALL && cell != COLLECTIBLE
-		&& cell != EXIT && cell != BLOCK)
-		return (FALSE);
 	if (game_get_cell (game, x, y) == COLLECTIBLE)
 		game->collectibles -= 1;
 	game->cells[y * game->width + x] = cell;
-	return (TRUE);
 }
 
 void	count_map_size(t_game *game, t_str str)
