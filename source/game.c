@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 19:01:20 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 19:06:05 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ void	game_terminate(t_game *game, t_int error_code)
 			mlx_destroy_window (game->mlx, game->mlx_win);
 		ft_memset (game, 0, sizeof (t_game));
 	}
-	ft_println ("Primitive leak checker: %i leaks from ft_alloc.",
-		ft_get_heap_allocations ());
+	if (ft_get_heap_allocations () != 0)
+		ft_println ("Primitive leak checker: %i leaks from ft_alloc.",
+			ft_get_heap_allocations ());
 	exit (error_code);
 }
 
