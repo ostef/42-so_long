@@ -47,13 +47,13 @@ static t_int	main_loop(t_game *game)
 static t_int	key_hook(t_int key_code, t_game *game)
 {
 	if (key_code == KEY_W)
-		game_move (game, UP);
+		game_move (game, 0, -1);
 	else if (key_code == KEY_A)
-		game_move (game, LEFT);
+		game_move (game, -1, 0);
 	else if (key_code == KEY_S)
-		game_move (game, DOWN);
+		game_move (game, 0, 1);
 	else if (key_code == KEY_D)
-		game_move (game, RIGHT);
+		game_move (game, 1, 0);
 	if (game_should_end (game) || key_code == KEY_ESCAPE)
 		game_terminate (game, 0);
 	return (0);

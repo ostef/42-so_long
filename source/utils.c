@@ -12,20 +12,6 @@
 
 #include "so_long.h"
 
-void	get_xdir_ydir(t_dir dir, t_int *x, t_int *y)
-{
-	*x = 0;
-	*y = 0;
-	if (dir == DOWN)
-		*y = 1;
-	else if (dir == UP)
-		*y = -1;
-	else if (dir == RIGHT)
-		*x = 1;
-	else if (dir == LEFT)
-		*x = -1;
-}
-
 t_int	cell_to_tile(t_cell cell)
 {
 	if (cell == WALL)

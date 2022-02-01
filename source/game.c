@@ -60,15 +60,12 @@ t_bool	game_should_end(t_game *game)
 		&& game->collectibles == 0);
 }
 
-void	game_move(t_game *game, t_dir dir)
+void	game_move(t_game *game, t_int xdir, t_int ydir)
 {
 	t_cell	next;
 	t_int	next_x;
 	t_int	next_y;
-	t_int	xdir;
-	t_int	ydir;
 
-	get_xdir_ydir (dir, &xdir, &ydir);
 	next_x = game->player_x + xdir;
 	next_y = game->player_y + ydir;
 	next = game_get_cell (game, next_x, next_y);

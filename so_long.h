@@ -58,14 +58,6 @@ typedef struct s_img
 	t_int	endianness;
 }	t_img;
 
-typedef enum e_dir
-{
-	DOWN = 0,
-	UP,
-	RIGHT,
-	LEFT
-}	t_dir;
-
 # define TILE_PLAYER_DOWN0 0
 # define TILE_PLAYER_DOWN1 1
 # define TILE_PLAYER_UP0 2
@@ -139,7 +131,7 @@ void	game_terminate(t_game *game, t_int error_code);
 t_bool	game_load_map(t_game *game, t_cstr filename);
 t_cell	game_get_cell(t_game *game, t_int x, t_int y);
 void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
-void	game_move(t_game *game, t_dir dir);
+void	game_move(t_game *game, t_int xdir, t_int ydir);
 t_bool	game_should_end(t_game *game);
 
 void	count_map_size(t_game *game, t_str str);
@@ -157,7 +149,6 @@ void	draw_img(t_game *game, t_int x, t_int y, t_img *img);
 void	draw_tile(t_game *game, t_int x, t_int y, t_int tile);
 void	draw_map(t_game *game);
 
-void	get_xdir_ydir(t_dir dir, t_int *x, t_int *y);
 t_int	cell_to_tile(t_cell cell);
 t_cell	tile_to_cell(t_int tile);
 t_int	get_player_tile(t_int xdir, t_int ydir);
