@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:42:35 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 18:48:05 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "libft.h"
 # include "mlx.h"
-
-# include <stdio.h>
 
 # define TILE_SIZE 16
 # ifndef GAME_SCALE

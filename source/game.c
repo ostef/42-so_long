@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:44:39 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 18:48:25 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_bool	game_init(t_game *game)
 	game->mlx = mlx_init ();
 	if (!game->mlx)
 		return (FALSE);
-	printf ("mlx_init: %p\n", game->mlx);
 	game->visible_tiles_x = ft_min (MAX_WIDTH, game->width);
 	game->visible_tiles_y = ft_min (MAX_HEIGHT, game->height);
 	game->mlx_win = mlx_new_window (game->mlx,
@@ -26,7 +25,6 @@ t_bool	game_init(t_game *game)
 			"so_long");
 	if (!game->mlx_win)
 		return (FALSE);
-	printf ("mlx_new_window: %p\n", game->mlx_win);
 	if (!img_init (game, &game->frame,
 			game->visible_tiles_x * TILE_SIZE * GAME_SCALE,
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE))

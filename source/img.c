@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:41:16 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 18:44:01 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 18:48:35 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_bool	img_init(t_game *game, t_img *img, t_int width, t_int height)
 	img->mlx_img = mlx_new_image (game->mlx, width, height);
 	if (!img->mlx_img)
 		return (FALSE);
-	printf ("mlx_new_image: %p\n", img->mlx_img);
 	img->data = (void *)mlx_get_data_addr (img->mlx_img, &img->bits_per_px,
 			&img->line_len, &img->endianness);
 	if (!img->data)
@@ -40,7 +39,6 @@ t_bool	img_load_png(t_game *game, t_img *img, t_cstr filename)
 			&img->width, &img->height);
 	if (!img->mlx_img)
 		return (FALSE);
-	printf ("mlx_png_file_to_image: %p\n", img->mlx_img);
 	img->data = (void *)mlx_get_data_addr (img->mlx_img, &img->bits_per_px,
 			&img->line_len, &img->endianness);
 	if (!img->data)
