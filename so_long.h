@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2021/12/20 16:16:03 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 14:46:48 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@
 # include "mlx.h"
 
 # define TILE_SIZE 16
-# define GAME_SCALE 4
-# define MAX_WIDTH 30
-# define MAX_HEIGHT 30
+# ifndef GAME_SCALE
+#  define GAME_SCALE 2
+# endif
+# ifndef MAX_WIDTH
+#  define MAX_WIDTH 30
+# endif
+# ifndef MAX_HEIGHT
+#  define MAX_HEIGHT 30
+# endif
 
 typedef t_u32	t_trgb;
 
@@ -52,11 +58,13 @@ typedef struct s_img
 	t_int	endianness;
 }	t_img;
 
-typedef struct s_anim
+typedef enum e_dir
 {
-	t_int	first;
-	t_int	last;
-}	t_anim;
+	DOWN = 0,
+	UP,
+	RIGHT,
+	LEFT
+}	t_dir;
 
 # define TILE_PLAYER_DOWN0 0
 # define TILE_PLAYER_DOWN1 1
@@ -114,24 +122,30 @@ typedef struct s_game
 	t_img	frame;
 	t_img	atlas;
 	t_cell	*cells;
+	t_int	collectibles;
+	t_int	exits;
 	t_int	width;
 	t_int	height;
 	t_int	player_x;
 	t_int	player_y;
+	t_int	player_tile;
 	t_int	move_count;
-	t_int	screen_width;
-	t_int	screen_height;
+	t_int	visible_tiles_x;
+	t_int	visible_tiles_y;
 	t_int	cam_x;
 	t_int	cam_y;
 }	t_game;
 
 t_bool	game_init(t_game *game);
-void	game_terminate (t_game *game, t_int error_code);
+void	game_terminate(t_game *game, t_int error_code);
 t_bool	game_load_map(t_game *game, t_cstr filename);
 t_cell	game_get_cell(t_game *game, t_int x, t_int y);
-void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
-void	game_move(t_game *game, t_int xdir, t_int ydir);
+t_bool	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
+void	game_move(t_game *game, t_dir dir);
 t_bool	game_should_end(t_game *game);
+
+void	count_map_size(t_game *game, t_str str);
+t_bool	check_map(t_game *game);
 
 t_bool	img_init(t_game *game, t_img *img, t_int width, t_int height);
 void	img_destroy(t_game *game, t_img *img);
@@ -143,5 +157,11 @@ void	draw_clear(t_game *game, t_rgba color);
 void	draw_px(t_game *game, t_int x, t_int y, t_rgba color);
 void	draw_img(t_game *game, t_int x, t_int y, t_img *img);
 void	draw_tile(t_game *game, t_int x, t_int y, t_int tile);
+void	draw_map(t_game *game);
+
+void	get_xdir_ydir(t_dir dir, t_int *x, t_int *y);
+t_int	cell_to_tile(t_cell cell);
+t_cell	tile_to_cell(t_int tile);
+t_int	get_player_tile(t_int xdir, t_int ydir, t_bool pushing);
 
 #endif

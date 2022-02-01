@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:05:54 by soumanso          #+#    #+#             */
-/*   Updated: 2021/12/20 16:15:31 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 14:07:32 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	draw_px(t_game *game, t_int x, t_int y, t_rgba color)
 	t_int	xx;
 	t_int	yy;
 
-	color = rgba_blend (img_get_px (&game->frame, x * GAME_SCALE, y * GAME_SCALE), color);
+	color = rgba_blend (
+			img_get_px (&game->frame, x * GAME_SCALE, y * GAME_SCALE), color);
 	yy = y * GAME_SCALE;
 	while (yy < y * GAME_SCALE + GAME_SCALE)
 	{
@@ -89,5 +90,32 @@ void	draw_tile(t_game *game, t_int x, t_int y, t_int tile)
 			xx += 1;
 		}
 		yy += 1;
+	}
+}
+
+void	draw_map(t_game *game)
+{
+	t_int	x;
+	t_int	y;
+	t_cell	cell;
+	t_int	tile;
+
+	y = 0;
+	while (y < game->visible_tiles_y)
+	{
+		x = 0;
+		while (x < game->visible_tiles_x)
+		{
+			cell = game_get_cell (game, x + game->cam_x, y + game->cam_y);
+			tile = cell_to_tile (cell);
+			if (tile != -1)
+				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, tile);
+			if (x + game->cam_x == game->player_x
+				&& y + game->cam_y == game->player_y)
+				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE,
+					game->player_tile + (game->move_count % 2));
+			x += 1;
+		}
+		y += 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:35:28 by soumanso          #+#    #+#             */
-/*   Updated: 2021/12/20 16:17:44 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/01 13:48:33 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,6 @@ static void	fatal_error(t_game *game, t_cstr fmt, ...)
 	ft_vfprintln (STDERR, fmt, va);
 	va_end (va);
 	game_terminate (game, 1);
-}
-
-static void	draw_map(t_game *game)
-{
-	t_int	x;
-	t_int	y;
-
-	y = 0;
-	while (y < game->screen_height)
-	{
-		x = 0;
-		while (x < game->screen_width)
-		{
-			t_cell cell = game_get_cell (game, x + game->cam_x, y + game->cam_y);
-			if (cell == WALL)
-				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, TILE_WALL);
-			else if (cell == COLLECTIBLE)
-				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, TILE_COLLECTIBLE);
-			else if (cell == EXIT)
-				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, TILE_EXIT);
-			else if (cell == BLOCK)
-				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, TILE_BLOCK);
-			if (x + game->cam_x == game->player_x
-				&& y + game->cam_y == game->player_y)
-				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, TILE_PLAYER_DOWN0);
-			x += 1;
-		}
-		y += 1;
-	}
 }
 
 static t_int	main_loop(t_game *game)
@@ -68,13 +39,13 @@ static t_int	main_loop(t_game *game)
 static t_int	key_hook(t_int key_code, t_game *game)
 {
 	if (key_code == KEY_W)
-		game_move (game, 0, -1);
+		game_move (game, UP);
 	else if (key_code == KEY_A)
-		game_move (game, -1, 0);
+		game_move (game, LEFT);
 	else if (key_code == KEY_S)
-		game_move (game, 0, 1);
+		game_move (game, DOWN);
 	else if (key_code == KEY_D)
-		game_move (game, 1, 0);
+		game_move (game, RIGHT);
 	if (game_should_end (game) || key_code == KEY_ESCAPE)
 		game_terminate (game, 0);
 	return (0);

@@ -1,5 +1,5 @@
 NAME = so_long
-SRC_FILES = source/main.c source/game.c source/map.c source/rgba.c source/img.c source/draw.c
+SRC_FILES = source/main.c source/game.c source/map.c source/rgba.c source/img.c source/draw.c source/utils.c source/load_map.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 INCLUDE_FILES = so_long.h
 INCLUDE_DIRS = libft mlx .
