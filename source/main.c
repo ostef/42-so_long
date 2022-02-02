@@ -6,13 +6,13 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:35:28 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 14:43:24 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 15:33:17 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	fatal_error(t_game *game, t_cstr fmt, ...)
+static void	fatal_error(t_game *game, t_err err, t_cstr fmt, ...)
 {
 	va_list	va;
 
@@ -20,7 +20,8 @@ static void	fatal_error(t_game *game, t_cstr fmt, ...)
 	va_start (va, fmt);
 	ft_vfprintln (STDERR, fmt, va);
 	va_end (va);
-	game_terminate (game, 1);
+	print_err (err);
+	game_terminate (game, err);
 }
 
 static t_int	main_loop(t_game *game)
@@ -65,6 +66,7 @@ static t_int	destroy_hook(t_game *game)
 t_int	main(t_int argc, t_str *args)
 {
 	t_game	game;
+	t_err	err;
 
 	if (argc != 2)
 	{
@@ -72,10 +74,13 @@ t_int	main(t_int argc, t_str *args)
 		return (1);
 	}
 	ft_memset (&game, 0, sizeof (t_game));
-	if (!game_load_map (&game, args[1]))
-		fatal_error (&game, "Could not load map '%s'.", args[1]);
-	if (!game_init (&game))
-		fatal_error (&game, "Could not initialize game.");
+	game.running = TRUE;
+	err = game_load_map (&game, args[1]);
+	if (err != OK)
+		fatal_error (&game, err, "Could not load map '%s'.", args[1]);
+	err = game_init (&game);
+	if (err != OK)
+		fatal_error (&game, err, "Could not initialize game.");
 	mlx_hook (game.mlx_win, 2, 1L << 0, key_hook, &game);
 	mlx_hook (game.mlx_win, 17, 0, destroy_hook, &game);
 	mlx_loop_hook (game.mlx, main_loop, &game);

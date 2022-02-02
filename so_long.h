@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 14:47:53 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 15:35:15 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,16 +132,36 @@ typedef struct s_game
 	t_int	cam_y;
 }	t_game;
 
-t_bool	game_init(t_game *game);
-void	game_terminate(t_game *game, t_int error_code);
-t_bool	game_load_map(t_game *game, t_cstr filename);
+typedef enum e_err
+{
+	OK = 0,
+	ERR_MEM,
+	ERR_FILE,
+	ERR_MLX,
+	ERR_IMG_ATLAS,
+	ERR_IMG_FONT,
+	ERR_MAP_CELL,
+	ERR_MAP_NOT_CLOSED,
+	ERR_MAP_NOT_RECT,
+	ERR_MAP_NO_PLAYER,
+	ERR_MAP_MULTIPLE_PLAYERS,
+	ERR_MAP_NO_EXIT,
+	ERR_MAP_NO_COLLECTIBLE,
+	ERR_COUNT
+}	t_err;
+
+void	print_err(t_err err);
+
+t_err	game_init(t_game *game);
+void	game_terminate(t_game *game, t_err err);
+t_err	game_load_map(t_game *game, t_cstr filename);
 t_cell	game_get_cell(t_game *game, t_int x, t_int y);
 void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
 void	game_move(t_game *game, t_int xdir, t_int ydir);
 t_bool	game_should_end(t_game *game);
 
-void	count_map_size(t_game *game, t_str str);
-t_bool	check_map(t_game *game);
+t_bool	count_map_size(t_game *game, t_str str);
+t_err	check_map(t_game *game);
 
 t_bool	img_init(t_game *game, t_img *img, t_int width, t_int height);
 void	img_destroy(t_game *game, t_img *img);

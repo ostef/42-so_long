@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 14:09:26 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 14:43:50 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 15:39:45 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static void	draw_px_unscaled(t_game *game, t_int x, t_int y, t_rgba color)
 {
-	t_int	xx;
-	t_int	yy;
-
 	color = rgba_blend (
 			img_get_px (&game->frame, x, y), color);
 	img_set_px (&game->frame, x, y, color);

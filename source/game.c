@@ -6,17 +6,17 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 14:30:25 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 15:35:07 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_bool	game_init(t_game *game)
+t_err	game_init(t_game *game)
 {
 	game->mlx = mlx_init ();
 	if (!game->mlx)
-		return (FALSE);
+		return (ERR_MLX);
 	game->visible_tiles_x = ft_min (MAX_WIDTH, game->width);
 	game->visible_tiles_y = ft_min (MAX_HEIGHT, game->height);
 	game->mlx_win = mlx_new_window (game->mlx,
@@ -24,29 +24,29 @@ t_bool	game_init(t_game *game)
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE,
 			"so_long");
 	if (!game->mlx_win)
-		return (FALSE);
+		return (ERR_MLX);
 	if (!img_init (game, &game->frame,
 			game->visible_tiles_x * TILE_SIZE * GAME_SCALE,
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE))
-		return (FALSE);
+		return (ERR_MLX);
 	if (!img_load_xpm (game, &game->atlas, "data/atlas.xpm"))
-		return (FALSE);
+		return (ERR_IMG_ATLAS);
 	if (!img_load_xpm (game, &game->font, "data/font.xpm"))
-		return (FALSE);
+		return (ERR_IMG_FONT);
 	game->player_tile = TILE_PLAYER_DOWN0;
 	game->running = TRUE;
-	return (TRUE);
+	return (OK);
 }
 
-void	game_terminate(t_game *game, t_int error_code)
+void	game_terminate(t_game *game, t_err err)
 {
 	if (game->running)
 	{
+		game->running = FALSE;
 		ft_free (game->cells, ALLOC_HEAP);
 		img_destroy (game, &game->frame);
 		img_destroy (game, &game->atlas);
 		img_destroy (game, &game->font);
-		game->running = FALSE;
 		if (game->mlx && game->mlx_win)
 			mlx_destroy_window (game->mlx, game->mlx_win);
 		ft_memset (game, 0, sizeof (t_game));
@@ -54,7 +54,7 @@ void	game_terminate(t_game *game, t_int error_code)
 	if (ft_get_heap_allocations () != 0)
 		ft_println ("Primitive leak checker: %i leaks from ft_alloc.",
 			ft_get_heap_allocations ());
-	exit (error_code);
+	exit (err);
 }
 
 t_bool	game_should_end(t_game *game)

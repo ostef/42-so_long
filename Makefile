@@ -1,12 +1,12 @@
 NAME = so_long
-SRC_FILES = source/main.c source/game.c source/map.c source/rgba.c source/img.c source/draw.c source/font.c source/utils.c source/load_map.c
+SRC_FILES = source/main.c source/game.c source/map.c source/rgba.c source/img.c source/draw.c source/font.c source/utils.c source/load_map.c source/error.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 INCLUDE_FILES = so_long.h
 INCLUDE_DIRS = libft mlx .
 LIB_DIRS = libft mlx
 LIBS = ft mlx
 CC = gcc
-C_FLAGS = $(addprefix -I, $(INCLUDE_DIRS)) #-Wall -Wextra -Werror
+C_FLAGS = $(addprefix -I, $(INCLUDE_DIRS)) -Wall -Wextra -Werror
 
 all: $(NAME)
 

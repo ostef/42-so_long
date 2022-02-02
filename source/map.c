@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 05:15:57 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 16:35:45 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 15:27:50 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
 	game->cells[y * game->width + x] = cell;
 }
 
-void	count_map_size(t_game *game, t_str str)
+t_bool	count_map_size(t_game *game, t_str str)
 {
 	t_int	i;
+	t_int	width;
 
 	game->width = 0;
 	game->height = 1;
@@ -43,22 +44,29 @@ void	count_map_size(t_game *game, t_str str)
 	{
 		if (str[i] == '\n')
 		{
+			if (game->height == 1)
+				width = game->width;
+			if (game->width != width)
+				return (FALSE);
 			game->width = -1;
 			game->height += 1;
 		}
 		game->width += 1;
 		i += 1;
 	}
+	return (TRUE);
 }
 
-t_bool	check_map(t_game *game)
+t_err	check_map(t_game *game)
 {
 	t_int	x;
 	t_int	y;
 	t_cell	cell;
 
-	if (game->exits == 0 || game->collectibles == 0)
-		return (FALSE);
+	if (game->exits == 0)
+		return (ERR_MAP_NO_EXIT);
+	if (game->collectibles == 0)
+		return (ERR_MAP_NO_COLLECTIBLE);
 	y = 0;
 	while (y < game->height)
 	{
@@ -68,10 +76,10 @@ t_bool	check_map(t_game *game)
 			cell = game_get_cell (game, x, y);
 			if ((x == 0 || x == game->width - 1
 					|| y == 0 || y == game->height - 1) && cell != WALL)
-				return (FALSE);
+				return (ERR_MAP_NOT_CLOSED);
 			x += 1;
 		}
 		y += 1;
 	}
-	return (TRUE);
+	return (OK);
 }
