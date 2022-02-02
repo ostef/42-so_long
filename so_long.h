@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 19:03:29 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 14:30:01 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 # ifndef MAX_HEIGHT
 #  define MAX_HEIGHT 30
 # endif
+
+# define FONT_FIRST_CHAR ' '
+# define FONT_LAST_CHAR 'Z'
+# define FONT_GLYPH_WIDTH 16
+# define FONT_GLYPH_HEIGHT 16
 
 typedef t_u32	t_trgb;
 
@@ -111,6 +116,7 @@ typedef struct s_game
 	t_bool	running;
 	t_img	frame;
 	t_img	atlas;
+	t_img	font;
 	t_cell	*cells;
 	t_int	collectibles;
 	t_int	exits;
@@ -148,6 +154,8 @@ void	draw_px(t_game *game, t_int x, t_int y, t_rgba color);
 void	draw_img(t_game *game, t_int x, t_int y, t_img *img);
 void	draw_tile(t_game *game, t_int x, t_int y, t_int tile);
 void	draw_map(t_game *game);
+void	draw_char(t_game *game, t_int x, t_int y, char c);
+void	draw_text(t_game *game, t_int x, t_int y, t_cstr str);
 
 t_int	cell_to_tile(t_cell cell);
 t_cell	tile_to_cell(t_int tile);

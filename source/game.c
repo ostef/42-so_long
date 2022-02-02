@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 19:06:05 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 14:30:25 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_bool	game_init(t_game *game)
 		return (FALSE);
 	if (!img_load_xpm (game, &game->atlas, "data/atlas.xpm"))
 		return (FALSE);
+	if (!img_load_xpm (game, &game->font, "data/font.xpm"))
+		return (FALSE);
 	game->player_tile = TILE_PLAYER_DOWN0;
 	game->running = TRUE;
 	return (TRUE);
@@ -43,6 +45,7 @@ void	game_terminate(t_game *game, t_int error_code)
 		ft_free (game->cells, ALLOC_HEAP);
 		img_destroy (game, &game->frame);
 		img_destroy (game, &game->atlas);
+		img_destroy (game, &game->font);
 		game->running = FALSE;
 		if (game->mlx && game->mlx_win)
 			mlx_destroy_window (game->mlx, game->mlx_win);

@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:35:28 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 17:44:47 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/02 14:43:24 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ static void	fatal_error(t_game *game, t_cstr fmt, ...)
 
 static t_int	main_loop(t_game *game)
 {
-	t_int	moves_strlen;
-	t_str	moves_str;
-
 	ft_reset_temp_storage ();
 	if (!game->running)
 		return (0);
@@ -35,11 +32,10 @@ static t_int	main_loop(t_game *game)
 	draw_map (game);
 	mlx_put_image_to_window (game->mlx, game->mlx_win,
 		game->frame.mlx_img, 0, 0);
-	moves_strlen = ft_sprint (NULL, "Moves: %i", game->move_count);
-	moves_str = (t_str)ft_alloc (moves_strlen + 1, ALLOC_TEMP);
-	ft_sprint (moves_str, "Moves: %i", game->move_count);
-	mlx_string_put (game->mlx, game->mlx_win, 10, 10,
-		rgba_to_trgb (rgba (255, 255, 255, 255)), moves_str);
+	draw_text (game, 16, 16,
+		ft_fmt (ALLOC_TEMP, "Moves: %i", game->move_count));
+	draw_text (game, 16, 32,
+		ft_fmt (ALLOC_TEMP, "Collectibles: %i", game->collectibles));
 	mlx_do_sync (game->mlx);
 	return (0);
 }
