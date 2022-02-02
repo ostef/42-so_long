@@ -49,15 +49,16 @@ static t_err	parse_map(t_game *game, t_cstr str)
 		if (str[i] == '\n')
 		{
 			x = 0;
-			i += 1;
 			y += 1;
-			continue ;
 		}
-		if (str[i] == 'P' && game->player_x != -1 && game->player_y != -1)
-			return (ERR_MAP_MULTIPLE_PLAYERS);
-		if (!map_set_cell (game, x, y, str[i]))
-			return (ERR_MAP_CELL);
-		x += 1;
+		else if (str[i] != '\r')
+		{
+			if (str[i] == 'P' && game->player_x != -1 && game->player_y != -1)
+				return (ERR_MAP_MULTIPLE_PLAYERS);
+			if (!map_set_cell (game, x, y, str[i]))
+				return (ERR_MAP_CELL);
+			x += 1;
+		}
 		i += 1;
 	}
 	return (OK);

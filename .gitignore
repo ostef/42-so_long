@@ -3,4 +3,5 @@
 *.a
 .vscode/
 .DS_Store
-
+libmlx.dylib
+so_long

@@ -38,23 +38,27 @@ t_bool	count_map_size(t_game *game, t_str str)
 	t_int	width;
 
 	game->width = 0;
-	game->height = 1;
+	game->height = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\n')
+		if (str[i] == '\n' || str[i] == 0)
 		{
-			if (game->height == 1)
+			if (game->height == 0)
 				width = game->width;
 			if (game->width != width)
 				return (FALSE);
-			game->width = -1;
 			game->height += 1;
+			if (str[i] == 0)
+				break ;
+			else
+				game->width = -1;
 		}
-		game->width += 1;
+		if (str[i] != '\r')
+			game->width += 1;
 		i += 1;
 	}
-	return (TRUE);
+	return (game->width > 0 && game->height > 0);
 }
 
 t_err	check_map(t_game *game)

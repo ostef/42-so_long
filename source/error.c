@@ -16,8 +16,8 @@
 
 static t_cstr	g_error_strs[] = {
 	"Ok.",
-	"Memory error: ",
 	"File error: ",
+	"Memory error.",
 	"MLX error.",
 	"Could not load atlas image.",
 	"Could not load font image.",
@@ -32,12 +32,9 @@ static t_cstr	g_error_strs[] = {
 
 void	print_err(t_err err)
 {
-	t_cstr	err_str;
-
 	ft_assert (err > 0 && err < ERR_COUNT, "Invalid error code %i.", err);
-	err_str = g_error_strs[err];
-	ft_fprint (STDERR, err_str);
-	if (err_str[ft_strlen (err_str) - 2] == ':')
+	ft_fprint (STDERR, g_error_strs[err]);
+	if (err == ERR_FILE)
 		ft_fprint (STDERR, strerror (errno));
 	ft_fprint (STDERR, "\n");
 }

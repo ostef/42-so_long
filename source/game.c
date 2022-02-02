@@ -29,9 +29,9 @@ t_err	game_init(t_game *game)
 			game->visible_tiles_x * TILE_SIZE * GAME_SCALE,
 			game->visible_tiles_y * TILE_SIZE * GAME_SCALE))
 		return (ERR_MLX);
-	if (!img_load_xpm (game, &game->atlas, "data/atlas.xpm"))
+	if (!img_load_xpm (game, &game->atlas, ATLAS_IMAGE_FILENAME))
 		return (ERR_IMG_ATLAS);
-	if (!img_load_xpm (game, &game->font, "data/font.xpm"))
+	if (!img_load_xpm (game, &game->font, FONT_IMAGE_FILENAME))
 		return (ERR_IMG_FONT);
 	game->player_tile = TILE_PLAYER_DOWN0;
 	game->running = TRUE;

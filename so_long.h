@@ -27,41 +27,13 @@
 #  define MAX_HEIGHT 30
 # endif
 
+# define FONT_IMAGE_FILENAME "data/font.xpm"
+# define ATLAS_IMAGE_FILENAME "data/atlas.xpm"
+
 # define FONT_FIRST_CHAR ' '
 # define FONT_LAST_CHAR 'Z'
 # define FONT_GLYPH_WIDTH 16
 # define FONT_GLYPH_HEIGHT 16
-
-typedef t_u32	t_trgb;
-
-typedef union u_rgba
-{
-	t_u32	value;
-	struct
-	{
-		t_u8	r;
-		t_u8	g;
-		t_u8	b;
-		t_u8	a;
-	};
-}	t_rgba;
-
-t_rgba	rgba(t_u8 r, t_u8 g, t_u8 b, t_u8 a);
-t_rgba	rgb(t_u8 r, t_u8 g, t_u8 b);
-t_trgb	rgba_to_trgb(t_rgba rgba);
-t_rgba	trgb_to_rgba(t_trgb trgb);
-t_rgba	rgba_blend(t_rgba a, t_rgba b);
-
-typedef struct s_img
-{
-	void	*mlx_img;
-	void	*data;
-	t_int	width;
-	t_int	height;
-	t_int	bits_per_px;
-	t_int	line_len;
-	t_int	endianness;
-}	t_img;
 
 # define TILE_PLAYER_DOWN0 0
 # define TILE_PLAYER_DOWN1 1
@@ -101,6 +73,37 @@ typedef struct s_img
 # define KEY_RIGHT 124
 # define KEY_ESCAPE 53
 
+typedef t_u32	t_trgb;
+
+typedef union u_rgba
+{
+	t_u32	value;
+	struct
+	{
+		t_u8	r;
+		t_u8	g;
+		t_u8	b;
+		t_u8	a;
+	};
+}	t_rgba;
+
+t_rgba	rgba(t_u8 r, t_u8 g, t_u8 b, t_u8 a);
+t_rgba	rgb(t_u8 r, t_u8 g, t_u8 b);
+t_trgb	rgba_to_trgb(t_rgba rgba);
+t_rgba	trgb_to_rgba(t_trgb trgb);
+t_rgba	rgba_blend(t_rgba a, t_rgba b);
+
+typedef struct s_img
+{
+	void	*mlx_img;
+	void	*data;
+	t_int	width;
+	t_int	height;
+	t_int	bits_per_px;
+	t_int	line_len;
+	t_int	endianness;
+}	t_img;
+
 typedef enum e_cell
 {
 	AIR = '0',
@@ -135,8 +138,8 @@ typedef struct s_game
 typedef enum e_err
 {
 	OK = 0,
-	ERR_MEM,
 	ERR_FILE,
+	ERR_MEM,
 	ERR_MLX,
 	ERR_IMG_ATLAS,
 	ERR_IMG_FONT,
