@@ -1,5 +1,5 @@
 NAME = so_long
-SRC_FILES = source/main.c source/game.c source/map.c source/load_map.c source/enemy.c\
+SRC_FILES = source/main.c source/game.c source/map.c source/load_map.c\
 	source/rgba.c source/img.c source/draw.c source/font.c\
 	source/utils.c  source/error.c
 OBJ_FILES = $(SRC_FILES:.c=.o)

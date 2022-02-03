@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 03:33:17 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/03 11:56:53 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:18:52 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,6 @@ typedef enum e_cell
 	CELL_EXIT = 'E'
 }	t_cell;
 
-# define MIN_ENEMY_STEPS 10
-
-typedef struct e_enemy
-{
-	t_int	x;
-	t_int	y;
-	t_int	xdir;
-	t_int	ydir;
-	t_int	steps;
-	t_tile	tile;
-}	t_enemy;
-
 typedef struct s_game
 {
 	void	*mlx;
@@ -146,8 +134,6 @@ typedef struct s_game
 	t_int	player_x;
 	t_int	player_y;
 	t_tile	player_tile;
-	t_enemy	*enemies;
-	t_int	enemy_count;
 	t_int	move_count;
 	t_int	visible_tiles_x;
 	t_int	visible_tiles_y;
@@ -183,10 +169,7 @@ void	game_set_cell(t_game *game, t_int x, t_int y, t_cell cell);
 void	game_move(t_game *game, t_int xdir, t_int ydir);
 t_bool	game_should_end(t_game *game);
 
-void	decide_next_move(t_enemy *enemy);
-
 t_bool	count_map_size(t_game *game, t_cstr str);
-void	count_enemies(t_game *game, t_cstr str);
 t_err	check_map(t_game *game);
 
 t_bool	img_init(t_game *game, t_img *img, t_int width, t_int height);
@@ -200,7 +183,6 @@ void	draw_px(t_game *game, t_int x, t_int y, t_rgba color);
 void	draw_img(t_game *game, t_int x, t_int y, t_img *img);
 void	draw_tile(t_game *game, t_int x, t_int y, t_tile tile);
 void	draw_map(t_game *game);
-void	draw_enemies(t_game *game);
 void	draw_char(t_game *game, t_int x, t_int y, char c);
 void	draw_text(t_game *game, t_int x, t_int y, t_cstr str);
 

@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:05:54 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/03 11:42:38 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:17:23 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,4 @@ void	draw_map(t_game *game)
 		}
 		y += 1;
 	}
-	draw_enemies (game);
 }

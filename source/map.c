@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 05:15:57 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/03 11:46:02 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:17:10 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,6 @@ t_bool	count_map_size(t_game *game, t_cstr str)
 		i += 1;
 	}
 	return (game->width > 0 && game->height > 0);
-}
-
-void	count_enemies(t_game *game, t_cstr str)
-{
-	t_int	i;
-
-	game->enemy_count = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '#')
-			game->enemy_count += 1;
-		i += 1;
-	}
 }
 
 t_err	check_map(t_game *game)

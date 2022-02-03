@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:24:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/03 12:02:02 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:18:23 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ static t_bool	map_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
 	{
 		game->player_x = x;
 		game->player_y = y;
-		cell = CELL_AIR;
-	}
-	if (cell == '#')
-	{
-		game->enemies[game->enemy_count].x = x;
-		game->enemies[game->enemy_count].y = y;
-		decide_next_move (&game->enemies[game->enemy_count]);
-		game->enemy_count += 1;
 		cell = CELL_AIR;
 	}
 	if (cell != CELL_AIR && cell != CELL_WALL && cell != CELL_COLLECTIBLE
@@ -52,7 +44,6 @@ static t_err	parse_map(t_game *game, t_cstr str)
 	i = 0;
 	x = 0;
 	y = 0;
-	game->enemy_count = 0;
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -83,14 +74,9 @@ t_err	game_load_map(t_game *game, t_cstr filename)
 		return (ERR_FILE);
 	if (!count_map_size (game, str))
 		return (ERR_MAP_NOT_RECT);
-	count_enemies (game, str);
 	game->cells = (t_cell *)ft_zalloc (
 			sizeof (t_cell) * game->width * game->height, ALLOC_HEAP);
 	if (!game->cells)
-		return (ERR_MEM);
-	game->enemies = (t_enemy *)ft_zalloc (
-			sizeof (t_enemy) * game->enemy_count, ALLOC_HEAP);
-	if (game->enemy_count > 0 && !game->enemies)
 		return (ERR_MEM);
 	game->player_x = -1;
 	game->player_y = -1;
