@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:05:54 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/01 14:07:32 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 11:42:38 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	draw_img(t_game *game, t_int x, t_int y, t_img *img)
 	}
 }
 
-void	draw_tile(t_game *game, t_int x, t_int y, t_int tile)
+void	draw_tile(t_game *game, t_int x, t_int y, t_tile tile)
 {
 	t_int	tile_x;
 	t_int	tile_y;
@@ -98,7 +98,7 @@ void	draw_map(t_game *game)
 	t_int	x;
 	t_int	y;
 	t_cell	cell;
-	t_int	tile;
+	t_tile	tile;
 
 	y = 0;
 	while (y < game->visible_tiles_y)
@@ -108,7 +108,7 @@ void	draw_map(t_game *game)
 		{
 			cell = game_get_cell (game, x + game->cam_x, y + game->cam_y);
 			tile = cell_to_tile (cell);
-			if (tile != -1)
+			if (tile != TILE_INVALID)
 				draw_tile (game, x * TILE_SIZE, y * TILE_SIZE, tile);
 			if (x + game->cam_x == game->player_x
 				&& y + game->cam_y == game->player_y)
@@ -118,4 +118,5 @@ void	draw_map(t_game *game)
 		}
 		y += 1;
 	}
+	draw_enemies (game);
 }

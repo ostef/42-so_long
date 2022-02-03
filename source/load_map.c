@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:24:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 15:38:15 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:02:02 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,29 @@
 static t_bool	map_set_cell(t_game *game, t_int x, t_int y, t_cell cell)
 {
 	ft_assert (x >= 0 && x < game->width,
-		"game_get_cell: x (%i) is out of bounds.", x);
+		"map_set_cell: x (%i) is out of bounds %i.", x, game->width);
 	ft_assert (y >= 0 && y < game->height,
-		"game_get_cell: y (%i) is out of bounds.", y);
+		"map_set_cell: y (%i) is out of bounds %i.", y, game->height);
 	if (cell == 'P')
 	{
 		game->player_x = x;
 		game->player_y = y;
-		cell = AIR;
+		cell = CELL_AIR;
 	}
-	if (cell != AIR && cell != WALL && cell != COLLECTIBLE
-		&& cell != EXIT)
+	if (cell == '#')
+	{
+		game->enemies[game->enemy_count].x = x;
+		game->enemies[game->enemy_count].y = y;
+		decide_next_move (&game->enemies[game->enemy_count]);
+		game->enemy_count += 1;
+		cell = CELL_AIR;
+	}
+	if (cell != CELL_AIR && cell != CELL_WALL && cell != CELL_COLLECTIBLE
+		&& cell != CELL_EXIT)
 		return (FALSE);
-	if (cell == EXIT)
+	if (cell == CELL_EXIT)
 		game->exits += 1;
-	if (cell == COLLECTIBLE)
+	if (cell == CELL_COLLECTIBLE)
 		game->collectibles += 1;
 	game->cells[y * game->width + x] = cell;
 	return (TRUE);
@@ -44,6 +52,7 @@ static t_err	parse_map(t_game *game, t_cstr str)
 	i = 0;
 	x = 0;
 	y = 0;
+	game->enemy_count = 0;
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -74,9 +83,14 @@ t_err	game_load_map(t_game *game, t_cstr filename)
 		return (ERR_FILE);
 	if (!count_map_size (game, str))
 		return (ERR_MAP_NOT_RECT);
+	count_enemies (game, str);
 	game->cells = (t_cell *)ft_zalloc (
 			sizeof (t_cell) * game->width * game->height, ALLOC_HEAP);
 	if (!game->cells)
+		return (ERR_MEM);
+	game->enemies = (t_enemy *)ft_zalloc (
+			sizeof (t_enemy) * game->enemy_count, ALLOC_HEAP);
+	if (game->enemy_count > 0 && !game->enemies)
 		return (ERR_MEM);
 	game->player_x = -1;
 	game->player_y = -1;

@@ -6,7 +6,7 @@
 /*   By: soumanso <soumanso@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 04:38:01 by soumanso          #+#    #+#             */
-/*   Updated: 2022/02/02 15:35:07 by soumanso         ###   ########lyon.fr   */
+/*   Updated: 2022/02/03 12:15:32 by soumanso         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	game_terminate(t_game *game, t_err err)
 	{
 		game->running = FALSE;
 		ft_free (game->cells, ALLOC_HEAP);
+		ft_free (game->enemies, ALLOC_HEAP);
 		img_destroy (game, &game->frame);
 		img_destroy (game, &game->atlas);
 		img_destroy (game, &game->font);
@@ -59,7 +60,17 @@ void	game_terminate(t_game *game, t_err err)
 
 t_bool	game_should_end(t_game *game)
 {
-	return (game_get_cell (game, game->player_x, game->player_y) == EXIT
+	t_int	i;
+
+	i = 0;
+	while (i < game->enemy_count)
+	{
+		if (game->player_x == game->enemies[i].x
+			&& game->player_y == game->enemies[i].y)
+			return (TRUE);
+		i += 1;
+	}
+	return (game_get_cell (game, game->player_x, game->player_y) == CELL_EXIT
 		&& game->collectibles == 0);
 }
 
@@ -68,14 +79,15 @@ void	game_move(t_game *game, t_int xdir, t_int ydir)
 	t_cell	next;
 	t_int	next_x;
 	t_int	next_y;
+	t_int	i;
 
 	next_x = game->player_x + xdir;
 	next_y = game->player_y + ydir;
 	next = game_get_cell (game, next_x, next_y);
-	if (next == WALL)
+	if (next == CELL_WALL)
 		return ;
-	if (next == COLLECTIBLE)
-		game_set_cell (game, next_x, next_y, AIR);
+	if (next == CELL_COLLECTIBLE)
+		game_set_cell (game, next_x, next_y, CELL_AIR);
 	game->player_x = next_x;
 	game->player_y = next_y;
 	game->player_tile = get_player_tile (xdir, ydir);
@@ -84,4 +96,20 @@ void	game_move(t_game *game, t_int xdir, t_int ydir)
 			game->width - game->visible_tiles_x);
 	game->cam_y = ft_clamp (game->player_y - game->visible_tiles_y / 2, 0,
 			game->height - game->visible_tiles_y);
+	i = 0;
+	while (i < game->enemy_count)
+	{
+		if (game->enemies[i].steps >= MIN_ENEMY_STEPS)
+			decide_next_move (&game->enemies[i]);
+		next_x = game->enemies[i].x + game->enemies[i].xdir;
+		next_y = game->enemies[i].y + game->enemies[i].ydir;
+		next = game_get_cell (game, next_x, next_y);
+		if (next == CELL_AIR)
+		{
+			game->enemies[i].x += game->enemies[i].xdir;
+			game->enemies[i].y += game->enemies[i].ydir;
+		}
+		game->enemies[i].steps += 1;
+		i += 1;
+	}
 }
